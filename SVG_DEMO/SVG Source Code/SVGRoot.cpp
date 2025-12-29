@@ -152,10 +152,14 @@ void SVGRoot::loadFromFile(const string& filename)
 			return;
 		}
 		if (xml_attribute<>* widthAttribute = rootNode->first_attribute("width")) {
-			this->width = stof(widthAttribute->value());
+			string val = widthAttribute->value();
+			this->width = stof(val);
+			if (val.find("pt") != string::npos) this->width *= 1.33333f;
 		}
 		if (xml_attribute<>* heightAttribute = rootNode->first_attribute("height")) {
-			this->height = stof(heightAttribute->value());
+			string val = heightAttribute->value();
+			this->height = stof(val);
+			if (val.find("pt") != string::npos) this->height *= 1.33333f;
 		}
 		if (xml_attribute<>* viewBoxAtrribute = rootNode->first_attribute("viewBox")) {
 			this->viewBox = viewBoxAtrribute->value();
@@ -167,7 +171,7 @@ void SVGRoot::loadFromFile(const string& filename)
 	}
 }
 
-void SVGRoot::render(Graphics* graphics, int viewPortWidth, int viewPortHeight)
+void SVGRoot::render(Graphics* graphics, int viewPortWidth, int viewPortHeight, bool ignoreViewBox)
 {
 	GraphicsState curState = graphics->Save();
 	graphics->SetSmoothingMode(SmoothingModeAntiAlias);
@@ -179,7 +183,7 @@ void SVGRoot::render(Graphics* graphics, int viewPortWidth, int viewPortHeight)
 
 	// 4. Chế độ bù đắp pixel để hình ảnh sắc nét, không bị nhòe ở biên
 	graphics->SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-	if (!viewBox.empty()) {
+	if (!ignoreViewBox&&!viewBox.empty()) {
 		string tempViewBox = viewBox;
 		for (auto& ch : tempViewBox) {
 			if (ch == ',') {

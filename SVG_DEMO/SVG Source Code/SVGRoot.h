@@ -23,7 +23,7 @@ public:
 	void addElement(SVGElement* element);
 	void parseNodes(xml_node<>*, SVGGroup* parentGroup);
 	void loadFromFile(const string& filename);
-	void render(Graphics* graphics, int viewPortWidth, int viewPortHeight);
+	void render(Graphics* graphics, int viewPortWidth, int viewPortHeight, bool ignoreViewBox);
 	RectF getBoundingBox();
 	~SVGRoot();
 };
