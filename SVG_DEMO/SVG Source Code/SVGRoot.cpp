@@ -163,6 +163,12 @@ void SVGRoot::loadFromFile(const string& filename)
 		}
 		if (xml_attribute<>* viewBoxAtrribute = rootNode->first_attribute("viewBox")) {
 			this->viewBox = viewBoxAtrribute->value();
+
+			
+			string temp = this->viewBox;
+			for (char& c : temp) if (c == ',') c = ' '; // Thay dấu phẩy bằng dấu cách
+			stringstream ss(temp);
+			ss >> this->vbX >> this->vbY >> this->vbWidth >> this->vbHeight;
 		}
 		this->parseNodes(rootNode, nullptr);
 	}
@@ -310,4 +316,22 @@ RectF SVGRoot::getBoundingBox() {
 		}
 	}
 	return totalBounds;
+}
+
+
+float SVGRoot::getVbX()
+{
+	return vbX;
+}
+float SVGRoot::getVbY()
+{
+	return vbY;
+}
+float SVGRoot::getVbWidth()
+{
+	return vbWidth;
+}
+float SVGRoot::getVbHeight()
+{
+	return vbHeight;
 }

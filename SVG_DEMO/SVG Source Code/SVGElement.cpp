@@ -196,6 +196,7 @@ float DegToRad(float Deg)
 
 void SVGElement::parseTransform()
 {
+	this->hasTransform = true;
 	preProcessingTranSform(transform);
 	stringstream ss(transform);
 	string info;

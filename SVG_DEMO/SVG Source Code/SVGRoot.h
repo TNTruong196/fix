@@ -12,6 +12,7 @@ private:
 	float height;
 	string viewBox;
 	vector<SVGElement*> elements;
+	float vbX = 0, vbY = 0, vbWidth = 0, vbHeight = 0;
 
 public:
 	static std::map<string, SVGGradient*> defsMap;
@@ -25,6 +26,12 @@ public:
 	void loadFromFile(const string& filename);
 	void render(Graphics* graphics, int viewPortWidth, int viewPortHeight, bool ignoreViewBox);
 	RectF getBoundingBox();
+
+	float getVbX();
+	float getVbY();
+	float getVbWidth();
+	float getVbHeight();
+
 	~SVGRoot();
 };
 
